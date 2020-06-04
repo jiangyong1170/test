@@ -142,12 +142,11 @@ void registerUser()
 	strcpy(use[t].a, a);
 	strcpy(use[t].b, b);
 	strcpy(use[t].c, c);
-	fprintf(fp, "%s%s%s\n", use[t].a, use[t].b, use[t].auth);
+	fprintf(fp, "%s %s %s\n", use[t].a, use[t].b, use[t].auth);
 	fclose(fp);
 	printf("\n\n\n\t\t\t注册成功");
 	printf("\n");
 	system("cls");
-	main();
 }
 //退出函数
 void quitSystem()
@@ -191,10 +190,10 @@ int userroleauth(char*username) {
 	FILE *fp= fopen("E:\\user.txt", "r");//读取文件操作
 	while (!feof(fp))
 	{
-		fscanf(fp, "%s%s%sn", &use[q].a, &use[q].b, &use[q].d);
-		if ((strcmp(*username, use[q].a) == 0))
+		fscanf(fp, "%s %s %sn", &use[q].a, &use[q].b, &use[q].d);
+		if ((strcmp(username, use[q].a) == 0))
 		{
-			if ((strcmp("admin", use[q].a) == 0)) {
+			if ((strcmp("admin", use[q].d) == 0)) {
 				flag = 0;
 			}
 			else {
@@ -224,7 +223,8 @@ void login()
 	fp = fopen("E:\\user.txt", "r");//读取文件操作
 	while (!feof(fp))
 	{
-		fscanf(fp, "%s%sn", &use[q].a, &use[q].b);
+		// fscanf(fp, "%s,%sn", &use[q].a, &use[q].b);
+		fscanf(fp, "%s %sn", &use[q].a, &use[q].b);
 		if ((strcmp(a, use[q].a) == 0) && (strcmp(b, use[q].b) == 0))
 		{
 			flag = 1;
@@ -262,13 +262,15 @@ void inputPassword(char d[], int length)
 }
 void loginactionmenu(char*username) {
 	char a;
-	int auth = userroleauth(*username);
+	int auth = userroleauth(username);
 	while (1)
 	{
 		printf("\n\n\n\n\t\t\t青软KTV点歌系统为您服务\n\n");
 		printf("\n\n\t\t\t服务【A】:功能1\n");
 		printf("\n\n\t\t\t服务【B】：功能2\n");
-		printf("\n\n\t\t\t服务【C】：修改密码\n");
+		if (auth == 0) {
+			printf("\n\n\t\t\t服务【C】：修改密码\n");
+		}
 		printf("\n\n\t\t\t请选择服务的种类：\n");
 		break;
 	}
